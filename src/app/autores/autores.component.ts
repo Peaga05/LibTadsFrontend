@@ -6,6 +6,7 @@ import { finalize } from 'rxjs/operators';
 import { CreateAutorComponent } from './create-autor/create-autor.component';
 import { EditAutorComponent } from './edit-autor/edit-autor.component';
 import { AutorDto, AutorDtoPagedResultDto, AutorServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AppComponentBase } from '@shared/app-component-base';
 
 class PagedAutoresRequestDto extends PagedRequestDto {
   keyword: string;
@@ -17,7 +18,7 @@ class PagedAutoresRequestDto extends PagedRequestDto {
   styleUrls: ['./autores.component.css'],
   animations: [appModuleAnimation()]
 })
-export class AutoresComponent extends PagedListingComponentBase<AutorDto>{
+export class AutoresComponent extends AppComponentBase implements OnInit{
   autores: AutorDto[] = [];
   keyword = '';
 
@@ -28,25 +29,10 @@ export class AutoresComponent extends PagedListingComponentBase<AutorDto>{
   ) { 
     super(injector);
   }
-
-  list(
-    request: PagedAutoresRequestDto,
-    pageNumber: number,
-    finishedCallback: Function
-  ): void {
-    request.keyword = this.keyword;
-    this._autorService
-      .getAll(request.keyword, request.skipCount, request.maxResultCount)
-      .pipe(
-        finalize(() => {
-          finishedCallback();
-        })
-      )
-      .subscribe((result: AutorDtoPagedResultDto) => {
-        this.autores = result.items;
-        this.showPaging(result, pageNumber);
-      });
+  ngOnInit(): void {
+    this.getAutores();
   }
+
 
   delete(autor: AutorDto): void {
     abp.message.confirm(
@@ -58,7 +44,7 @@ export class AutoresComponent extends PagedListingComponentBase<AutorDto>{
             .pipe(
               finalize(() => {
                 abp.notify.success(this.l('SuccessfullyDeleted'));
-                this.refresh();
+                this.getAutores();
               })
             )
             .subscribe(() => {});
@@ -106,9 +92,12 @@ export class AutoresComponent extends PagedListingComponentBase<AutorDto>{
         }
       );
     }
-
     createOrEditRoleDialog.content.onSave.subscribe(() => {
-      this.refresh();
+      this.getAutores();
     });
+  }
+
+  buscarAutor(){
+
   }
 }
