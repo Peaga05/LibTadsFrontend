@@ -2,7 +2,7 @@
   <section class="content-header">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
           <div class="input-group">
             <div class="input-group-prepend">
               <button type="button" class="btn bg-green" (click)="getDataPage(1)">
@@ -13,8 +13,8 @@
               [(ngModel)]="keyword" (keyup.enter)="getDataPage(1)" />
           </div>
         </div>
-        <div class="col-6 text-right">
-          <a href="javascript:;" class="btn bg-green" (click)="createRole()">
+        <div class="col-md-6 col-sm-12 text-right">
+          <a href="javascript:;" class="btn bg-green btn-mobile" (click)="createRole()">
             <i class="fa fa-plus-square"></i>
             {{ "Create" | localize }}
           </a>
@@ -65,18 +65,13 @@
         </div>
         <div class="card-footer table-card-footer bg-light border-top">
           <div class="row">
-            <div class="col-sm-4 col-12 text-sm-left text-center">
+            <div class="col-sm-6 col-12 text-sm-left text-center refresh">
               <button class="btn btn-secondary bg-green" (click)="refresh()">
                 <i class="fas fa-redo-alt"></i>
               </button>
             </div>
-            <div class="col-sm-4 col-12 text-center">
-              <p class="mb-0 my-2">
-                {{ "TotalRecordsCount" | localize: totalItems }}
-              </p>
-            </div>
-            <div class="col-sm-4 col-12">
-              <div class="float-sm-right m-auto">
+            <div class="col-sm-6 col-12">
+              <div class="float-sm-right m-auto pagination-container">
                 <abp-pagination-controls id="server" (pageChange)="getDataPage($event)">
                 </abp-pagination-controls>
               </div>

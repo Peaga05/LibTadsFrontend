@@ -1,12 +1,24 @@
-.bg-green{
+.bg-green {
     background-color: #334f53 !important;
     color: #e1e3ac !important;
 }
-    .bg-green:hover{
-        background-color: #4b6366 !important;
+
+.bg-green:hover {
+    background-color: #4b6366 !important;
+}
+
+
+@media only screen and (max-device-width: 425px) {
+    .btn-mobile {
+        margin-top: 1rem !important;
+        width: 100% !important;
     }
 
-/* thead, tbody{
-    background-color: #e5ead4 !important;
-    color: #334f53 !important;
-} */
+    .pagination-container {
+        margin: auto !important;
+    }
+
+    .refresh {
+        display: none;
+    }
+}
