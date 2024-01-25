@@ -18,7 +18,8 @@ class PagedAutoresRequestDto extends PagedRequestDto {
   styleUrls: ['./autores.component.css'],
   animations: [appModuleAnimation()]
 })
-export class AutoresComponent extends AppComponentBase implements OnInit{
+export class AutoresComponent extends PagedListingComponentBase<AutorDto> {
+
   autores: AutorDto[] = [];
   keyword = '';
 
@@ -29,10 +30,21 @@ export class AutoresComponent extends AppComponentBase implements OnInit{
   ) { 
     super(injector);
   }
-  ngOnInit(): void {
-    this.getAutores();
+  list(request: PagedAutoresRequestDto, pageNumber: number, finishedCallback: Function): void {
+    request.keyword = this.keyword;
+    this._autorService
+      .getAutores(request.keyword, request.skipCount, request.maxResultCount, pageNumber, 7)
+      .pipe(
+        finalize(() => {
+          finishedCallback();
+        })
+      )
+      .subscribe((result: AutorDtoPagedResultDto) => {
+        this.autores = result.items;
+        this.showPaging(result, pageNumber);
+        this.keyword = "";
+      });
   }
-
 
   delete(autor: AutorDto): void {
     abp.message.confirm(
@@ -44,24 +56,13 @@ export class AutoresComponent extends AppComponentBase implements OnInit{
             .pipe(
               finalize(() => {
                 abp.notify.success(this.l('SuccessfullyDeleted'));
-                this.getAutores();
+                this.refresh();
               })
             )
             .subscribe(() => {});
         }
       }
     );
-  }
-
-  getAutores(){
-    abp.ui.setBusy();
-    this._autorService.getAutores().pipe(
-      finalize(()=>{
-        abp.ui.clearBusy();
-      })
-    ).subscribe((autores) =>{
-      this.autores = autores;
-    })
   }
 
   createAutor(): void {
@@ -93,11 +94,7 @@ export class AutoresComponent extends AppComponentBase implements OnInit{
       );
     }
     createOrEditRoleDialog.content.onSave.subscribe(() => {
-      this.getAutores();
+      this.refresh();
     });
-  }
-
-  buscarAutor(){
-
   }
 }

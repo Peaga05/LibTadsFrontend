@@ -1,0 +1,24 @@
+.input-login{
+    border: 1px solid #334f53;
+    color: #334f53 !important;
+    background-color: #e5ead4 !important;
+}
+
+.show-password{
+    border: 1px solid #334f53;
+    color: #334f53 !important;
+}
+
+.btn-login{
+    background-color: #334f53 !important;
+    color: #e1e3ac !important;
+}
+
+.btn-login:hover{
+    background-color: #2e4042 !important;
+    color: #e1e3ac !important;
+}
+
+.color-green{
+    color: #334f53 !important;
+}

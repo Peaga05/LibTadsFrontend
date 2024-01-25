@@ -22,5 +22,7 @@ export class AccountComponent extends AppComponentBase implements OnInit {
 
   ngOnInit(): void {
     this.renderer.addClass(document.body, 'login-page');
+    this.renderer.setStyle(document.body, 'background-color', '#334f53');
+
   }
 }

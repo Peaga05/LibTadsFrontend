@@ -316,10 +316,35 @@ export class AutorServiceProxy {
     }
 
     /**
+     * @param keyword (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
      * @return Success
      */
-    getAutores(): Observable<AutorDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Autor/GetAutores";
+    getAutores(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<AutorDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Autor/GetAutores?";
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "pageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -337,14 +362,14 @@ export class AutorServiceProxy {
                 try {
                     return this.processGetAutores(<any>response_);
                 } catch (e) {
-                    return <Observable<AutorDto[]>><any>_observableThrow(e);
+                    return <Observable<AutorDtoPagedResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<AutorDto[]>><any>_observableThrow(response_);
+                return <Observable<AutorDtoPagedResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAutores(response: HttpResponseBase): Observable<AutorDto[]> {
+    protected processGetAutores(response: HttpResponseBase): Observable<AutorDtoPagedResultDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -355,14 +380,7 @@ export class AutorServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200.push(AutorDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = AutorDtoPagedResultDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -370,7 +388,7 @@ export class AutorServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<AutorDto[]>(<any>null);
+        return _observableOf<AutorDtoPagedResultDto>(<any>null);
     }
 
     /**
@@ -427,6 +445,69 @@ export class AutorServiceProxy {
             }));
         }
         return _observableOf<AutorDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createFilteredQuery(body: PagedRoleResultRequestDto | undefined): Observable<Autor[]> {
+        let url_ = this.baseUrl + "/api/services/app/Autor/CreateFilteredQuery";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateFilteredQuery(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateFilteredQuery(<any>response_);
+                } catch (e) {
+                    return <Observable<Autor[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Autor[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateFilteredQuery(response: HttpResponseBase): Observable<Autor[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(Autor.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Autor[]>(<any>null);
     }
 
     /**
@@ -2468,6 +2549,61 @@ export interface IAuthenticateResultModel {
     userId: number;
 }
 
+export class Autor implements IAutor {
+    id: number;
+    nome: string;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+
+    constructor(data?: IAutor) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.nome = _data["nome"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+        }
+    }
+
+    static fromJS(data: any): Autor {
+        data = typeof data === 'object' ? data : {};
+        let result = new Autor();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["nome"] = this.nome;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        return data; 
+    }
+
+    clone(): Autor {
+        const json = this.toJSON();
+        let result = new Autor();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAutor {
+    id: number;
+    nome: string;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+}
+
 export class AutorDto implements IAutorDto {
     id: number;
     nome: string;
@@ -3408,6 +3544,57 @@ export class IsTenantAvailableOutput implements IIsTenantAvailableOutput {
 export interface IIsTenantAvailableOutput {
     state: TenantAvailabilityState;
     tenantId: number | undefined;
+}
+
+export class PagedRoleResultRequestDto implements IPagedRoleResultRequestDto {
+    maxResultCount: number;
+    skipCount: number;
+    keyword: string | undefined;
+
+    constructor(data?: IPagedRoleResultRequestDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.maxResultCount = _data["maxResultCount"];
+            this.skipCount = _data["skipCount"];
+            this.keyword = _data["keyword"];
+        }
+    }
+
+    static fromJS(data: any): PagedRoleResultRequestDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedRoleResultRequestDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maxResultCount"] = this.maxResultCount;
+        data["skipCount"] = this.skipCount;
+        data["keyword"] = this.keyword;
+        return data; 
+    }
+
+    clone(): PagedRoleResultRequestDto {
+        const json = this.toJSON();
+        let result = new PagedRoleResultRequestDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedRoleResultRequestDto {
+    maxResultCount: number;
+    skipCount: number;
+    keyword: string | undefined;
 }
 
 export class PermissionDto implements IPermissionDto {

@@ -1,12 +1,8 @@
-.bg-green{
+.bg-green {
     background-color: #334f53 !important;
     color: #e1e3ac !important;
 }
-    .bg-green:hover{
+
+    .bg-green:hover {
         background-color: #4b6366 !important;
     }
-
-/* thead, tbody{
-    background-color: #e5ead4 !important;
-    color: #334f53 !important;
-} */

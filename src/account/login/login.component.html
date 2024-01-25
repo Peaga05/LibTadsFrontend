@@ -1,33 +1,22 @@
-﻿<div [@routerTransition]>
-  <h4 class="text-center mb-3">LIBTADS</h4>
+﻿<div [@routerTransition] class="p-3">
+  <div class="text-center">
+    <h3 class="color-green p-1">LIBTADS</h3>
+  </div>
   <form novalidate autocomplete="off" #loginForm="ngForm" (ngSubmit)="login()">
     <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-append">
-          <div class="input-group-text">
-            <span class="fas fa-user"></span>
-          </div>
-        </div>
-        <input type="text" class="form-control" name="userNameOrEmailAddress"
-          [(ngModel)]="authService.authenticateModel.userNameOrEmailAddress"
-          [placeholder]="'UserNameOrEmail' | localize" required maxlength="256" #userNameOrEmailAddressModel="ngModel"
-          #userNameOrEmailAddressEl />
-
-      </div>
+      <input type="text" class="form-control input-login" name="userNameOrEmailAddress"
+        [(ngModel)]="authService.authenticateModel.userNameOrEmailAddress" [placeholder]="'UserNameOrEmail' | localize"
+        required maxlength="256" #userNameOrEmailAddressModel="ngModel" #userNameOrEmailAddressEl />
       <abp-validation-summary [control]="userNameOrEmailAddressModel"
         [controlEl]="userNameOrEmailAddressEl"></abp-validation-summary>
     </div>
     <div class="form-group">
       <div class="input-group">
+        <input [type]=" showPassword ? 'text' : 'password'" class="form-control input-login" name="password"
+          [(ngModel)]="authService.authenticateModel.password" [placeholder]="'Password' | localize" required
+          maxlength="32" #passwordModel="ngModel" #passwordEl />
         <div class="input-group-append">
-          <div class="input-group-text">
-            <span class="fas fa-lock"></span>
-          </div>
-        </div>
-        <input [type]=" showPassword ? 'text' : 'password'" class="form-control" name="password" [(ngModel)]="authService.authenticateModel.password"
-          [placeholder]="'Password' | localize" required maxlength="32" #passwordModel="ngModel" #passwordEl />
-        <div class="input-group-append">
-          <div class="input-group-text">
+          <div class="input-group-text show-password">
             <span (click)="exibirSenha()" [ngClass]="showPassword ? 'far fa-eye' : 'far fa-eye-slash'"></span>
           </div>
         </div>
@@ -39,20 +28,21 @@
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" id="rememberMe" name="rememberMe"
             [(ngModel)]="authService.rememberMe" />
-          <label for="rememberMe" class="custom-control-label">
+          <label for="rememberMe" class="custom-control-label color-green">
             {{ "RememberMe" | localize }}
           </label>
         </div>
       </div>
       <div class="col-12 mt-2">
-        <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.form.valid || submitting">
+        <button type="submit" class="btn btn-primary btn-login btn-block"
+          [disabled]="!loginForm.form.valid || submitting">
           {{ "LogIn" | localize }}
         </button>
       </div>
     </div>
   </form>
   <p class="mb-1 text-center">
-    <a [routerLink]="['../register']">
+    <a class="color-green" [routerLink]="['../register']">
       Cadastre-se
     </a>
   </p>

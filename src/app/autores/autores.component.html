@@ -1,14 +1,5 @@
 <div [@routerTransition] class="container-main">
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <h1 class="text-center">AUTORES</h1>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="content px-2">
+  <section class="content">
     <div class="container-fluid">
       <div class="card">
         <div class="card-header">
@@ -16,12 +7,12 @@
             <div class="col-md-6">
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <button type="button" class="btn bg-green" (click)="buscarAutor()">
+                  <button type="button" class="btn bg-green" (click)="getDataPage(1)">
                     <i class="fas fa-search"></i>
                   </button>
                 </div>
                 <input type="text" class="form-control" name="keyword" [placeholder]="'SearchWithThreeDot' | localize"
-                  [(ngModel)]="keyword" (keyup.enter)="buscarAutor()" />
+                  [(ngModel)]="keyword" (keyup.enter)="getDataPage(1)" />
               </div>
             </div>
             <div class="col-6 text-right">
@@ -34,15 +25,21 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-              <thead class="bg-light">
+            <table class="table table-bordered">
+              <thead>
                 <tr>
                   <th>Nome do Autor</th>
                   <th style="width: 200px;">{{ "Actions" | localize }}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor=" let autor of autores ">
+                <tr *ngFor=" let autor of autores  
+                  | paginate: {
+                    id: 'server',
+                    itemsPerPage: pageSize,
+                    currentPage: pageNumber,
+                    totalItems: totalItems
+                  }">
                   <td>{{ autor.nome }}</td>
                   <td class="text-center">
                     <button type="button" class="btn btn-sm bg-green" (click)="editAutor(autor)">
@@ -62,7 +59,7 @@
         <div class="card-footer table-card-footer bg-light border-top">
           <div class="row">
             <div class="col-sm-4 col-12 text-sm-left text-center">
-              <button class="btn btn-secondary bg-green" (click)="buscarAutor()">
+              <button class="btn btn-secondary bg-green" (click)="refresh()">
                 <i class="fas fa-redo-alt"></i>
               </button>
             </div>
@@ -70,7 +67,7 @@
             </div>
             <div class="col-sm-4 col-12">
               <div class="float-sm-right m-auto">
-                <abp-pagination-controls id="server" (pageChange)="buscarAutor()">
+                <abp-pagination-controls id="server" (pageChange)="getDataPage($event)">
                 </abp-pagination-controls>
               </div>
             </div>

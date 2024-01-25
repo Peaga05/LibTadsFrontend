@@ -1,12 +1,10 @@
-.bg-green{
+.btn-login{
     background-color: #334f53 !important;
     color: #e1e3ac !important;
 }
-    .bg-green:hover{
-        background-color: #4b6366 !important;
-    }
 
-/* thead, tbody{
+.btn-back{
     background-color: #e5ead4 !important;
     color: #334f53 !important;
-} */
+    border: 1px solid #334f53;
+}

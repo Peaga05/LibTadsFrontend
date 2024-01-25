@@ -12,6 +12,7 @@ import { AppAuthService } from '@shared/auth/app-auth.service';
 
 @Component({
   templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
   animations: [accountModuleAnimation()]
 })
 export class RegisterComponent extends AppComponentBase {

@@ -126,7 +126,7 @@
       <div class="col-8">
         <button
           type="button"
-          class="btn btn-default"
+          class="btn btn-default btn-back"
           [disabled]="saving"
           [routerLink]="['../login']"
         >
@@ -136,7 +136,7 @@
       <div class="col-4">
         <button
           type="submit"
-          class="btn btn-primary btn-block"
+          class="btn btn-primary btn-block btn-login"
           [disabled]="!registerForm.form.valid || saving"
         >
           {{ "Register" | localize }}

@@ -22,7 +22,8 @@ class PagedUsersRequestDto extends PagedRequestDto {
 
 @Component({
   templateUrl: './users.component.html',
-  animations: [appModuleAnimation()]
+  animations: [appModuleAnimation()],
+  styleUrls: ['./users.component.css'],
 })
 export class UsersComponent extends PagedListingComponentBase<UserDto> {
   users: UserDto[] = [];
