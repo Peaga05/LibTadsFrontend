@@ -1,0 +1,17 @@
+<form class="form-horizontal" autocomplete="off" #createRoleForm="ngForm" (ngSubmit)="save()">
+    <abp-modal-header title="Criar Gênero" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
+    <div class="modal-body">
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="descricao">
+                Descrição
+            </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="descricao" id="descricao" required minlength="2" maxlength="32"
+                    [(ngModel)]="genero.descricao" #nameModel="ngModel" #nameEl />
+                <abp-validation-summary [control]="nameModel" [controlEl]="nameEl"></abp-validation-summary>
+            </div>
+        </div>
+    </div>
+    <abp-modal-footer [cancelDisabled]="saving"
+        (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
+</form>

@@ -30,6 +30,7 @@ export class AutoresComponent extends PagedListingComponentBase<AutorDto> {
   ) { 
     super(injector);
   }
+  
   list(request: PagedAutoresRequestDto, pageNumber: number, finishedCallback: Function): void {
     request.keyword = this.keyword;
     this._autorService

@@ -1,45 +1,46 @@
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
-import { AutorDto, AutorServiceProxy, FlatPermissionDto, UpdateAutorDto, UserDto } from '@shared/service-proxies/service-proxies';
+import { UpdateGeneroDto, GeneroServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-edit-autor',
-  templateUrl: './edit-autor.component.html',
-  styleUrls: ['./edit-autor.component.css']
+  selector: 'app-edit-genero',
+  templateUrl: './edit-genero.component.html',
+  styleUrls: ['./edit-genero.component.css']
 })
-export class EditAutorComponent extends AppComponentBase implements OnInit {
+export class EditGeneroComponent extends AppComponentBase implements OnInit {
   saving = false;
   id: number;
-  autor = new UpdateAutorDto();
+  genero = new UpdateGeneroDto();
   @Output() onSave = new EventEmitter<any>();
-  
+
   constructor(
     injector: Injector,
-    private _autorService: AutorServiceProxy,
+    private _generoService: GeneroServiceProxy,
     public bsModalRef: BsModalRef
-    ) {
+  ) {
     super(injector);
   }
 
   ngOnInit(): void {
-    abp.ui.setBusy()
-    this._autorService.getAutorById(this.id).pipe(
-      finalize(() =>{
+    abp.ui.setBusy();
+    this._generoService.getAutorById(this.id).pipe(
+      finalize(() => {
         abp.ui.clearBusy();
       })
-    ).subscribe((autor) => {
-      this.autor = autor;
-    })
+    ).subscribe((genero) => {
+      this.genero = genero;
+    },
+    )
   }
 
-  save(): void {
+  save(){
     this.saving = true;
-    const autor = new UpdateAutorDto();
-    autor.init(this.autor);
+    const genero = new UpdateGeneroDto();
+    genero.init(this.genero);
 
-    this._autorService.update(autor).subscribe(
+    this._generoService.update(genero).subscribe(
       () => {
         this.notify.info(this.l('SavedSuccessfully'));
         this.bsModalRef.hide();
