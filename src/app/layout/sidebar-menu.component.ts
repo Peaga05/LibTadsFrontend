@@ -54,7 +54,13 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             new MenuItem(
                 "Autores",
                 '/app/autores',
-                'fas fa-building'
+                'fas fa-pen-nib'
+                // 'Pages.Autores'
+            ),
+            new MenuItem(
+                "Gêneros",
+                '/app/generos',
+                'fas fa-head-side-virus'
                 // 'Pages.Autores'
             ),
             new MenuItem(

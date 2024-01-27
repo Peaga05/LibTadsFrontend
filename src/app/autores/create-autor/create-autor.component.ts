@@ -11,9 +11,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 export class CreateAutorComponent extends AppComponentBase implements OnInit {
   saving = false;
   autor = new CreateAutorDto();
-  checkedPermissionsMap: { [key: string]: boolean } = {};
-
   @Output() onSave = new EventEmitter<any>();
+  
   constructor(
     injector: Injector,
     private _autorService: AutorServiceProxy,

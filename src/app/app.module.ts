@@ -41,6 +41,9 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { AutoresComponent } from './autores/autores.component';
 import { CreateAutorComponent } from './autores/create-autor/create-autor.component';
 import { EditAutorComponent } from './autores/edit-autor/edit-autor.component';
+import { GenerosComponent } from './generos/generos.component';
+import { CreateGeneroComponent } from './generos/create-genero/create-genero.component';
+import { EditGeneroComponent } from './generos/edit-genero/edit-genero.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,10 @@ import { EditAutorComponent } from './autores/edit-autor/edit-autor.component';
     SidebarMenuComponent,
     AutoresComponent,
     CreateAutorComponent,
-    EditAutorComponent
+    EditAutorComponent,
+    GenerosComponent,
+    CreateGeneroComponent,
+    EditGeneroComponent
   ],
   imports: [
     CommonModule,
