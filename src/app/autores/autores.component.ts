@@ -75,16 +75,16 @@ export class AutoresComponent extends PagedListingComponentBase<AutorDto> {
   }
 
   showCreateOrEditAutorDialog(id?: number): void {
-    let createOrEditRoleDialog: BsModalRef;
+    let createOrEditGeneroDialog: BsModalRef;
     if (!id) {
-      createOrEditRoleDialog = this._modalService.show(
+      createOrEditGeneroDialog = this._modalService.show(
         CreateAutorComponent,
         {
           class: 'modal-lg',
         }
       );
     } else {
-      createOrEditRoleDialog = this._modalService.show(
+      createOrEditGeneroDialog = this._modalService.show(
         EditAutorComponent,
         {
           class: 'modal-lg',
@@ -94,7 +94,7 @@ export class AutoresComponent extends PagedListingComponentBase<AutorDto> {
         }
       );
     }
-    createOrEditRoleDialog.content.onSave.subscribe(() => {
+    createOrEditGeneroDialog.content.onSave.subscribe(() => {
       this.refresh();
     });
   }

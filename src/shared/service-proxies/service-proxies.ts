@@ -511,6 +511,64 @@ export class AutorServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getAllAutor(): Observable<AutorDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Autor/GetAllAutor";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllAutor(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllAutor(<any>response_);
+                } catch (e) {
+                    return <Observable<AutorDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AutorDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllAutor(response: HttpResponseBase): Observable<AutorDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(AutorDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AutorDto[]>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -1004,8 +1062,8 @@ export class GeneroServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getAutorById(id: number | undefined): Observable<GeneroDto> {
-        let url_ = this.baseUrl + "/api/services/app/Genero/GetAutorById?";
+    getGeneroById(id: number | undefined): Observable<GeneroDto> {
+        let url_ = this.baseUrl + "/api/services/app/Genero/GetGeneroById?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
         else if (id !== undefined)
@@ -1021,11 +1079,11 @@ export class GeneroServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAutorById(response_);
+            return this.processGetGeneroById(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAutorById(<any>response_);
+                    return this.processGetGeneroById(<any>response_);
                 } catch (e) {
                     return <Observable<GeneroDto>><any>_observableThrow(e);
                 }
@@ -1034,7 +1092,7 @@ export class GeneroServiceProxy {
         }));
     }
 
-    protected processGetAutorById(response: HttpResponseBase): Observable<GeneroDto> {
+    protected processGetGeneroById(response: HttpResponseBase): Observable<GeneroDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1054,6 +1112,64 @@ export class GeneroServiceProxy {
             }));
         }
         return _observableOf<GeneroDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllGenero(): Observable<GeneroDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Genero/GetAllGenero";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllGenero(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllGenero(<any>response_);
+                } catch (e) {
+                    return <Observable<GeneroDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GeneroDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllGenero(response: HttpResponseBase): Observable<GeneroDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(GeneroDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GeneroDto[]>(<any>null);
     }
 
     /**
@@ -1184,6 +1300,488 @@ export class GeneroServiceProxy {
      */
     delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Genero/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class LivroServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateLivroDto | undefined): Observable<LivroDto> {
+        let url_ = this.baseUrl + "/api/services/app/Livro/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<LivroDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LivroDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<LivroDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LivroDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LivroDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    update(body: UpdateLivroDto | undefined): Observable<LivroDto> {
+        let url_ = this.baseUrl + "/api/services/app/Livro/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<LivroDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LivroDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<LivroDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LivroDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LivroDto>(<any>null);
+    }
+
+    /**
+     * @param idLivro (optional) 
+     * @return Success
+     */
+    deActivate(idLivro: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Livro/DeActivate?";
+        if (idLivro === null)
+            throw new Error("The parameter 'idLivro' cannot be null.");
+        else if (idLivro !== undefined)
+            url_ += "idLivro=" + encodeURIComponent("" + idLivro) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeActivate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeActivate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeActivate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param keyword (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return Success
+     */
+    getLivros(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<LivroDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Livro/GetLivros?";
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "pageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLivros(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLivros(<any>response_);
+                } catch (e) {
+                    return <Observable<LivroDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LivroDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLivros(response: HttpResponseBase): Observable<LivroDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LivroDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LivroDtoPagedResultDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLivroById(id: number | undefined): Observable<LivroDto> {
+        let url_ = this.baseUrl + "/api/services/app/Livro/GetLivroById?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLivroById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLivroById(<any>response_);
+                } catch (e) {
+                    return <Observable<LivroDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LivroDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLivroById(response: HttpResponseBase): Observable<LivroDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LivroDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LivroDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: number | undefined): Observable<LivroDto> {
+        let url_ = this.baseUrl + "/api/services/app/Livro/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<LivroDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LivroDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<LivroDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LivroDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LivroDto>(<any>null);
+    }
+
+    /**
+     * @param keyword (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<LivroDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Livro/GetAll?";
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<LivroDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LivroDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<LivroDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LivroDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LivroDtoPagedResultDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Livro/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
         else if (id !== undefined)
@@ -3036,6 +3634,7 @@ export class Autor implements IAutor {
     nome: string;
     creationTime: moment.Moment;
     isDeleted: boolean;
+    livros: Livro[] | undefined;
 
     constructor(data?: IAutor) {
         if (data) {
@@ -3052,6 +3651,11 @@ export class Autor implements IAutor {
             this.nome = _data["nome"];
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.isDeleted = _data["isDeleted"];
+            if (Array.isArray(_data["livros"])) {
+                this.livros = [] as any;
+                for (let item of _data["livros"])
+                    this.livros.push(Livro.fromJS(item));
+            }
         }
     }
 
@@ -3068,6 +3672,11 @@ export class Autor implements IAutor {
         data["nome"] = this.nome;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["isDeleted"] = this.isDeleted;
+        if (Array.isArray(this.livros)) {
+            data["livros"] = [];
+            for (let item of this.livros)
+                data["livros"].push(item.toJSON());
+        }
         return data; 
     }
 
@@ -3084,6 +3693,7 @@ export interface IAutor {
     nome: string;
     creationTime: moment.Moment;
     isDeleted: boolean;
+    livros: Livro[] | undefined;
 }
 
 export class AutorDto implements IAutorDto {
@@ -3413,6 +4023,81 @@ export class CreateGeneroDto implements ICreateGeneroDto {
 
 export interface ICreateGeneroDto {
     descricao: string;
+}
+
+export class CreateLivroDto implements ICreateLivroDto {
+    id: number;
+    titulo: string;
+    isbn: string;
+    quantidade: number;
+    gerarQrCode: boolean;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    autorId: number;
+    generoId: number;
+
+    constructor(data?: ICreateLivroDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.titulo = _data["titulo"];
+            this.isbn = _data["isbn"];
+            this.quantidade = _data["quantidade"];
+            this.gerarQrCode = _data["gerarQrCode"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.autorId = _data["autorId"];
+            this.generoId = _data["generoId"];
+        }
+    }
+
+    static fromJS(data: any): CreateLivroDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateLivroDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["titulo"] = this.titulo;
+        data["isbn"] = this.isbn;
+        data["quantidade"] = this.quantidade;
+        data["gerarQrCode"] = this.gerarQrCode;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["autorId"] = this.autorId;
+        data["generoId"] = this.generoId;
+        return data; 
+    }
+
+    clone(): CreateLivroDto {
+        const json = this.toJSON();
+        let result = new CreateLivroDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateLivroDto {
+    id: number;
+    titulo: string;
+    isbn: string;
+    quantidade: number;
+    gerarQrCode: boolean;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    autorId: number;
+    generoId: number;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
@@ -3820,6 +4505,73 @@ export interface IFlatPermissionDto {
     description: string | undefined;
 }
 
+export class Genero implements IGenero {
+    id: number;
+    descricao: string;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    livros: Livro[] | undefined;
+
+    constructor(data?: IGenero) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.descricao = _data["descricao"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            if (Array.isArray(_data["livros"])) {
+                this.livros = [] as any;
+                for (let item of _data["livros"])
+                    this.livros.push(Livro.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): Genero {
+        data = typeof data === 'object' ? data : {};
+        let result = new Genero();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["descricao"] = this.descricao;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        if (Array.isArray(this.livros)) {
+            data["livros"] = [];
+            for (let item of this.livros)
+                data["livros"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): Genero {
+        const json = this.toJSON();
+        let result = new Genero();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGenero {
+    id: number;
+    descricao: string;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    livros: Livro[] | undefined;
+}
+
 export class GeneroDto implements IGeneroDto {
     id: number;
     descricao: string;
@@ -4179,6 +4931,227 @@ export class IsTenantAvailableOutput implements IIsTenantAvailableOutput {
 export interface IIsTenantAvailableOutput {
     state: TenantAvailabilityState;
     tenantId: number | undefined;
+}
+
+export class Livro implements ILivro {
+    id: number;
+    titulo: string;
+    isbn: string;
+    quantidade: number;
+    qrCode: string | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    autorId: number;
+    autor: Autor;
+    generoId: number;
+    genero: Genero;
+
+    constructor(data?: ILivro) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.titulo = _data["titulo"];
+            this.isbn = _data["isbn"];
+            this.quantidade = _data["quantidade"];
+            this.qrCode = _data["qrCode"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.autorId = _data["autorId"];
+            this.autor = _data["autor"] ? Autor.fromJS(_data["autor"]) : <any>undefined;
+            this.generoId = _data["generoId"];
+            this.genero = _data["genero"] ? Genero.fromJS(_data["genero"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): Livro {
+        data = typeof data === 'object' ? data : {};
+        let result = new Livro();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["titulo"] = this.titulo;
+        data["isbn"] = this.isbn;
+        data["quantidade"] = this.quantidade;
+        data["qrCode"] = this.qrCode;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["autorId"] = this.autorId;
+        data["autor"] = this.autor ? this.autor.toJSON() : <any>undefined;
+        data["generoId"] = this.generoId;
+        data["genero"] = this.genero ? this.genero.toJSON() : <any>undefined;
+        return data; 
+    }
+
+    clone(): Livro {
+        const json = this.toJSON();
+        let result = new Livro();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILivro {
+    id: number;
+    titulo: string;
+    isbn: string;
+    quantidade: number;
+    qrCode: string | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    autorId: number;
+    autor: Autor;
+    generoId: number;
+    genero: Genero;
+}
+
+export class LivroDto implements ILivroDto {
+    id: number;
+    titulo: string;
+    isbn: string;
+    quantidade: number;
+    qrCode: string | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    nomeAutor: string | undefined;
+    autorId: number;
+    generoId: number;
+    descricaoGenero: string | undefined;
+
+    constructor(data?: ILivroDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.titulo = _data["titulo"];
+            this.isbn = _data["isbn"];
+            this.quantidade = _data["quantidade"];
+            this.qrCode = _data["qrCode"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.nomeAutor = _data["nomeAutor"];
+            this.autorId = _data["autorId"];
+            this.generoId = _data["generoId"];
+            this.descricaoGenero = _data["descricaoGenero"];
+        }
+    }
+
+    static fromJS(data: any): LivroDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LivroDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["titulo"] = this.titulo;
+        data["isbn"] = this.isbn;
+        data["quantidade"] = this.quantidade;
+        data["qrCode"] = this.qrCode;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["nomeAutor"] = this.nomeAutor;
+        data["autorId"] = this.autorId;
+        data["generoId"] = this.generoId;
+        data["descricaoGenero"] = this.descricaoGenero;
+        return data; 
+    }
+
+    clone(): LivroDto {
+        const json = this.toJSON();
+        let result = new LivroDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILivroDto {
+    id: number;
+    titulo: string;
+    isbn: string;
+    quantidade: number;
+    qrCode: string | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    nomeAutor: string | undefined;
+    autorId: number;
+    generoId: number;
+    descricaoGenero: string | undefined;
+}
+
+export class LivroDtoPagedResultDto implements ILivroDtoPagedResultDto {
+    items: LivroDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: ILivroDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(LivroDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): LivroDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LivroDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data; 
+    }
+
+    clone(): LivroDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new LivroDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILivroDtoPagedResultDto {
+    items: LivroDto[] | undefined;
+    totalCount: number;
 }
 
 export class PagedRoleResultRequestDto implements IPagedRoleResultRequestDto {
@@ -5104,6 +6077,81 @@ export class UpdateGeneroDto implements IUpdateGeneroDto {
 export interface IUpdateGeneroDto {
     id: number;
     descricao: string;
+}
+
+export class UpdateLivroDto implements IUpdateLivroDto {
+    id: number;
+    titulo: string;
+    isbn: string;
+    quantidade: number;
+    qrCode: string | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    autorId: number;
+    generoId: number;
+
+    constructor(data?: IUpdateLivroDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.titulo = _data["titulo"];
+            this.isbn = _data["isbn"];
+            this.quantidade = _data["quantidade"];
+            this.qrCode = _data["qrCode"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.autorId = _data["autorId"];
+            this.generoId = _data["generoId"];
+        }
+    }
+
+    static fromJS(data: any): UpdateLivroDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateLivroDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["titulo"] = this.titulo;
+        data["isbn"] = this.isbn;
+        data["quantidade"] = this.quantidade;
+        data["qrCode"] = this.qrCode;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["autorId"] = this.autorId;
+        data["generoId"] = this.generoId;
+        return data; 
+    }
+
+    clone(): UpdateLivroDto {
+        const json = this.toJSON();
+        let result = new UpdateLivroDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUpdateLivroDto {
+    id: number;
+    titulo: string;
+    isbn: string;
+    quantidade: number;
+    qrCode: string | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    autorId: number;
+    generoId: number;
 }
 
 export class UserDto implements IUserDto {

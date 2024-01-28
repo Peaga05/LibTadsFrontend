@@ -154,7 +154,7 @@
     "symbol-observable" "4.0.0"
     "uuid" "8.3.2"
 
-"@angular/common@^11.0.4", "@angular/common@^12.0.5", "@angular/common@>=5.0.0", "@angular/common@>=7.0.0", "@angular/common@12.0.5":
+"@angular/common@^11.0.4", "@angular/common@^12.0.5", "@angular/common@>=12.0.0", "@angular/common@>=5.0.0", "@angular/common@>=7.0.0", "@angular/common@12.0.5":
   "integrity" "sha512-jKiPjWVL3jXVKgXwINlsF5O0r9gX/mAoa5UVy57O8jcg+ENbH9LLSOikgiF/0HPxk2uvRV5OYmbBgOY1xT41kQ=="
   "resolved" "https://registry.npmjs.org/@angular/common/-/common-12.0.5.tgz"
   "version" "12.0.5"
@@ -193,7 +193,7 @@
   "resolved" "https://registry.npmjs.org/@angular/compiler/-/compiler-9.0.0.tgz"
   "version" "9.0.0"
 
-"@angular/core@^11.0.4", "@angular/core@^12.0.5", "@angular/core@>=5.0.0", "@angular/core@>=7.0.0", "@angular/core@12.0.5":
+"@angular/core@^11.0.4", "@angular/core@^12.0.5", "@angular/core@>=12.0.0", "@angular/core@>=5.0.0", "@angular/core@>=7.0.0", "@angular/core@12.0.5":
   "integrity" "sha512-uVYsZa1VqVw8vNcjUYgfjXBc1M3WaxLXoLnCsDvutJiln4csa8Yw8p7RqQSrZ6AgQ8o2LHD2JJ5kus3EDMwfcA=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-12.0.5.tgz"
   "version" "12.0.5"
@@ -205,7 +205,7 @@
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-9.0.0.tgz"
   "version" "9.0.0"
 
-"@angular/forms@^12.0.5":
+"@angular/forms@^12.0.5", "@angular/forms@>=12.0.0":
   "integrity" "sha512-Ew/fGPTsywoYnm6DFPA/DyLl4Sb+1/uzpledrbxUHzaSKIrnXFrjQiUTmsbbq+8qono3JzbUIblqH1DrNThYiA=="
   "resolved" "https://registry.npmjs.org/@angular/forms/-/forms-12.0.5.tgz"
   "version" "12.0.5"
@@ -5424,6 +5424,13 @@
   "resolved" "https://registry.npmjs.org/ngx-bootstrap/-/ngx-bootstrap-5.6.2.tgz"
   "version" "5.6.2"
 
+"ngx-mask@^13.2.2":
+  "integrity" "sha512-GvTxODtx0Err6z6U7HGdd9t8qCOLwycLYcD5yek/b4FoxbUs3FRyFsiuTyfPxbWeUgFPLbHjLWR2y5qDI/4Tdg=="
+  "resolved" "https://registry.npmjs.org/ngx-mask/-/ngx-mask-13.2.2.tgz"
+  "version" "13.2.2"
+  dependencies:
+    "tslib" "^2.3.0"
+
 "ngx-pagination@^5.0.0":
   "integrity" "sha512-KxHES+Dn6pbetytO9ng2GAdclmo4UcwzFmQyVPWh2xRPbAlv5/ezL2xnDVBFMqCoJQaZagvdQ+ZZFbqGWqAvCQ=="
   "resolved" "https://registry.npmjs.org/ngx-pagination/-/ngx-pagination-5.1.1.tgz"
@@ -8069,7 +8076,7 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   "version" "1.14.1"
 
-"tslib@^2.0.0", "tslib@^2.0.3", "tslib@^2.1.0", "tslib@^2.2.0":
+"tslib@^2.0.0", "tslib@^2.0.3", "tslib@^2.1.0", "tslib@^2.2.0", "tslib@^2.3.0":
   "integrity" "sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.3.0.tgz"
   "version" "2.3.0"

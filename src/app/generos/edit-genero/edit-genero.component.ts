@@ -25,7 +25,7 @@ export class EditGeneroComponent extends AppComponentBase implements OnInit {
 
   ngOnInit(): void {
     abp.ui.setBusy();
-    this._generoService.getAutorById(this.id).pipe(
+    this._generoService.getGeneroById(this.id).pipe(
       finalize(() => {
         abp.ui.clearBusy();
       })

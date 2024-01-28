@@ -44,6 +44,11 @@ import { EditAutorComponent } from './autores/edit-autor/edit-autor.component';
 import { GenerosComponent } from './generos/generos.component';
 import { CreateGeneroComponent } from './generos/create-genero/create-genero.component';
 import { EditGeneroComponent } from './generos/edit-genero/edit-genero.component';
+import { LivrosComponent } from './livros/livros.component';
+import { CreateLivroComponent } from './livros/create-livro/create-livro.component';
+import { EditLivroComponent } from './livros/edit-livro/edit-livro.component';
+import { NgxMaskModule } from 'ngx-mask';
+
 
 @NgModule({
   declarations: [
@@ -79,7 +84,10 @@ import { EditGeneroComponent } from './generos/edit-genero/edit-genero.component
     EditAutorComponent,
     GenerosComponent,
     CreateGeneroComponent,
-    EditGeneroComponent
+    EditGeneroComponent,
+    LivrosComponent,
+    CreateLivroComponent,
+    EditLivroComponent,
   ],
   imports: [
     CommonModule,
@@ -95,6 +103,7 @@ import { EditGeneroComponent } from './generos/edit-genero/edit-genero.component
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [],
   entryComponents: [
