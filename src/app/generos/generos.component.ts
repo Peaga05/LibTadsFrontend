@@ -5,6 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { EditGeneroComponent } from './edit-genero/edit-genero.component';
 import { CreateGeneroComponent } from './create-genero/create-genero.component';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 class PagedGenerosRequestDto extends PagedRequestDto {
   keyword: string;
@@ -13,7 +14,8 @@ class PagedGenerosRequestDto extends PagedRequestDto {
 @Component({
   selector: 'app-generos',
   templateUrl: './generos.component.html',
-  styleUrls: ['./generos.component.css']
+  styleUrls: ['./generos.component.css'],
+  animations: [appModuleAnimation()],
 })
 export class GenerosComponent extends PagedListingComponentBase<GeneroDto> {
 
@@ -72,16 +74,16 @@ export class GenerosComponent extends PagedListingComponentBase<GeneroDto> {
   }
 
   showCreateOrEditGeneroDialog(id?: number): void {
-    let createOrEditRoleDialog: BsModalRef;
+    let createOrEditGeneroDialog: BsModalRef;
     if (!id) {
-      createOrEditRoleDialog = this._modalService.show(
+      createOrEditGeneroDialog = this._modalService.show(
         CreateGeneroComponent,
         {
           class: 'modal-lg',
         }
       );
     } else {
-      createOrEditRoleDialog = this._modalService.show(
+      createOrEditGeneroDialog = this._modalService.show(
         EditGeneroComponent,
         {
           class: 'modal-lg',
@@ -91,7 +93,7 @@ export class GenerosComponent extends PagedListingComponentBase<GeneroDto> {
         }
       );
     }
-    createOrEditRoleDialog.content.onSave.subscribe(() => {
+    createOrEditGeneroDialog.content.onSave.subscribe(() => {
       this.refresh();
     });
   }
