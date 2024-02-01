@@ -1,14 +1,14 @@
-import {Component, Injector, OnInit} from '@angular/core';
-import {AppComponentBase} from '@shared/app-component-base';
+import { Component, Injector, OnInit } from '@angular/core';
+import { AppComponentBase } from '@shared/app-component-base';
 import {
     Router,
     RouterEvent,
     NavigationEnd,
     PRIMARY_OUTLET
 } from '@angular/router';
-import {BehaviorSubject} from 'rxjs';
-import {filter} from 'rxjs/operators';
-import {MenuItem} from '@shared/layout/menu-item';
+import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { MenuItem } from '@shared/layout/menu-item';
 
 @Component({
     selector: 'sidebar-menu',
@@ -54,20 +54,20 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             new MenuItem(
                 "Autores",
                 '/app/autores',
-                'fas fa-pen-nib'
-                // 'Pages.Autores'
+                'fas fa-pen-nib',
+                'Pages.Autores'
             ),
             new MenuItem(
                 "Gêneros",
                 '/app/generos',
-                'fas fa-head-side-virus'
-                // 'Pages.Autores'
+                'fas fa-head-side-virus',
+                'Pages.Generos'
             ),
             new MenuItem(
                 "Livros",
                 '/app/livros',
-                'fas fa-book'
-                // 'Pages.Autores'
+                'fas fa-book',
+                'Pages.Livros'
             ),
             new MenuItem(
                 this.l('Users'),
