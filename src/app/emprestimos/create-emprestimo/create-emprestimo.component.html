@@ -1,0 +1,23 @@
+<div [@routerTransition] class="container-main" style="display: grid; place-items: center; height: 80vh;">
+    <section class="content">
+        <div class="container-fluid">
+            <div *ngIf="livroDto != undefined" [@routerTransition]>
+                <div class="form-group row m-auto text-center">
+                    <p class="col-12 title" for="titulo-livro">
+                        Título do livro: {{livroDto.titulo}}
+                    </p>
+                    <p class="col-12 text-data" for="titulo-livro">
+                        Data do empréstimo: {{dataEmprestimo}}
+                    </p>
+                    <p class="col-12 text-data" for="titulo-livro">
+                        Devolver até: {{dataDevolucao}}
+                    </p>
+                </div>
+                <div class="mt-4 text-center">
+                    <button class="btn bg-green mr-2" (click)="save()">Realizar empréstimo</button>
+                    <a class="btn btn-danger" [routerLink]="['/app/livros']">Cancelar</a>
+                </div>
+            </div>
+            </div>
+    </section>
+</div>

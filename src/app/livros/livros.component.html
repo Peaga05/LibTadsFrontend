@@ -1,81 +1,96 @@
 <div [@routerTransition] class="container-main">
-    <section class="content">
-      <div class="container-fluid">
-        <div class="card">
-          <div class="card-header">
-            <div class="row">
-              <div class="col-md-6 col-sm-12">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <button type="button" class="btn bg-green" (click)="getDataPage(1)">
-                      <i class="fas fa-search"></i>
-                    </button>
-                  </div>
-                  <input type="text" class="form-control" name="keyword" [placeholder]="'SearchWithThreeDot' | localize"
-                    [(ngModel)]="keyword" (keyup.enter)="getDataPage(1)" />
+  <section class="content">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <button type="button" class="btn bg-green" (click)="getDataPage(1)">
+                    <i class="fas fa-search"></i>
+                  </button>
                 </div>
-              </div>
-              <div class="col-md-6 col-sm-12  text-right">
-                <a href="javascript:;" class="btn bg-green btn-mobile" (click)="createLivro()">
-                  <i class="fa fa-plus-square"></i>
-                  {{ "Create" | localize }}
-                </a>
+                <input type="text" class="form-control" name="keyword" [placeholder]="'SearchWithThreeDot' | localize"
+                  [(ngModel)]="keyword" (keyup.enter)="getDataPage(1)" />
               </div>
             </div>
+            <div class="col-md-6 col-sm-12  text-right">
+              <a href="javascript:;" class="btn bg-green btn-mobile" (click)="createLivro()">
+                <i class="fa fa-plus-square"></i>
+                {{ "Create" | localize }}
+              </a>
+            </div>
           </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Título</th>
-                    <th>Gênero</th>
-                    <th>Autor</th>
-                    <th style="width: 200px;">{{ "Actions" | localize }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor=" let livro of livros  
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Título</th>
+                  <th>Gênero</th>
+                  <th>Autor</th>
+                  <th style="width: 400px;">{{ "Actions" | localize }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor=" let livro of livros  
                     | paginate: {
                       id: 'server',
                       itemsPerPage: pageSize,
                       currentPage: pageNumber,
                       totalItems: totalItems
                     }">
-                    <td>{{ livro.titulo }}</td>
-                    <td>{{ livro.descricaoGenero }}</td>
-                    <td>{{ livro.nomeAutor }}</td>
-                    <td class="text-center">
-                      <button type="button" class="btn btn-sm bg-green" (click)="editLivro(livro)">
-                        <i class="fas fa-pencil-alt"></i>
-                        Editar
-                      </button>
-                      <button type="button" class="btn btn-sm bg-danger mx-2" (click)="delete(livro)">
-                        <i class="fas fa-trash"></i>
-                        Apagar
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                  <td>{{ livro.titulo }}</td>
+                  <td>{{ livro.descricaoGenero }}</td>
+                  <td>{{ livro.nomeAutor }}</td>
+                  <td class="text-center">
+                    <button *ngIf="showButtons" type="button" class="btn btn-sm bg-green" (click)="editLivro(livro)">
+                      <i class="fas fa-pencil-alt icon-button"></i>
+                      Editar
+                    </button>
+                    <button *ngIf="showButtons" type="button" class="btn btn-sm bg-danger mx-2" (click)="delete(livro)">
+                      <i class="fas fa-trash icon-button"></i>
+                      Apagar
+                    </button>
+                    <button *ngIf="showButtons" type="button" class="btn btn-sm bg-green mx-2"
+                      (click)="gerarQrCode(livro)">
+                      <i class="fas fa-qrcode"></i>
+                      QrCode
+                    </button>
+                    <ng-container *ngIf="livro.quatidade > 0; else naoEmprestimo">
+                      <a class="btn btn-sm bg-warning" routerLink="../emprestimos/create-emprestimo/{{livro.id}}">
+                        <i class="fab fa-leanpub icon-button"></i>
+                        Empréstimo
+                      </a>
+                    </ng-container>
+                    <ng-template #naoEmprestimo>
+                      Livro indisponível
+                    </ng-template>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="card-footer table-card-footer bg-light border-top">
-            <div class="row">
-              <div class="col-sm-6 col-12 text-sm-left text-center refresh">
-                <button class="btn btn-secondary bg-green" (click)="refresh()">
-                  <i class="fas fa-redo-alt"></i>
-                </button>
-              </div>
-              <div class="col-sm-6 col-12">
-                <div class="float-sm-right m-auto pagination-container">
-                  <abp-pagination-controls id="server" (pageChange)="getDataPage($event)">
-                  </abp-pagination-controls>
-                </div>
+        </div>
+        <div class="card-footer table-card-footer bg-light border-top">
+          <div class="row">
+            <div class="col-sm-6 col-12 text-sm-left text-center refresh">
+              <button class="btn btn-secondary bg-green" (click)="refresh()">
+                <i class="fas fa-redo-alt"></i>
+              </button>
+            </div>
+            <div class="col-sm-6 col-12">
+              <div class="float-sm-right m-auto pagination-container">
+                <abp-pagination-controls id="server" (pageChange)="getDataPage($event)">
+                </abp-pagination-controls>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
+</div>

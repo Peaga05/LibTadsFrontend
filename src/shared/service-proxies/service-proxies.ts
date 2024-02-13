@@ -808,6 +808,380 @@ export class ConfigurationServiceProxy {
 }
 
 @Injectable()
+export class EmprestimoServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateEmprestimoDto | undefined): Observable<EmprestimoDto> {
+        let url_ = this.baseUrl + "/api/services/app/Emprestimo/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<EmprestimoDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EmprestimoDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<EmprestimoDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = EmprestimoDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EmprestimoDto>(<any>null);
+    }
+
+    /**
+     * @param keyword (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return Success
+     */
+    getAllEmprestimos(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<EmprestimoDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Emprestimo/GetAllEmprestimos?";
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "pageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllEmprestimos(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllEmprestimos(<any>response_);
+                } catch (e) {
+                    return <Observable<EmprestimoDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EmprestimoDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllEmprestimos(response: HttpResponseBase): Observable<EmprestimoDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = EmprestimoDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EmprestimoDtoPagedResultDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: number | undefined): Observable<EmprestimoDto> {
+        let url_ = this.baseUrl + "/api/services/app/Emprestimo/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<EmprestimoDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EmprestimoDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<EmprestimoDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = EmprestimoDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EmprestimoDto>(<any>null);
+    }
+
+    /**
+     * @param keyword (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmprestimoDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Emprestimo/GetAll?";
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<EmprestimoDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EmprestimoDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<EmprestimoDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = EmprestimoDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EmprestimoDtoPagedResultDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    update(body: UpdateEmprestimoDto | undefined): Observable<EmprestimoDto> {
+        let url_ = this.baseUrl + "/api/services/app/Emprestimo/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<EmprestimoDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EmprestimoDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<EmprestimoDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = EmprestimoDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EmprestimoDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Emprestimo/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class GeneroServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -3169,6 +3543,64 @@ export class UserServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getUserRoles(): Observable<string[]> {
+        let url_ = this.baseUrl + "/api/services/app/User/GetUserRoles";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUserRoles(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUserRoles(<any>response_);
+                } catch (e) {
+                    return <Observable<string[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetUserRoles(response: HttpResponseBase): Observable<string[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(item);
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string[]>(<any>null);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
@@ -3982,6 +4414,73 @@ export interface ICreateAutorDto {
     nome: string;
 }
 
+export class CreateEmprestimoDto implements ICreateEmprestimoDto {
+    id: number;
+    dataEmprestimo: moment.Moment;
+    dataDevolucao: moment.Moment | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    livroId: number;
+    userId: number;
+
+    constructor(data?: ICreateEmprestimoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.dataEmprestimo = _data["dataEmprestimo"] ? moment(_data["dataEmprestimo"].toString()) : <any>undefined;
+            this.dataDevolucao = _data["dataDevolucao"] ? moment(_data["dataDevolucao"].toString()) : <any>undefined;
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.livroId = _data["livroId"];
+            this.userId = _data["userId"];
+        }
+    }
+
+    static fromJS(data: any): CreateEmprestimoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateEmprestimoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["dataEmprestimo"] = this.dataEmprestimo ? this.dataEmprestimo.toISOString() : <any>undefined;
+        data["dataDevolucao"] = this.dataDevolucao ? this.dataDevolucao.toISOString() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["livroId"] = this.livroId;
+        data["userId"] = this.userId;
+        return data; 
+    }
+
+    clone(): CreateEmprestimoDto {
+        const json = this.toJSON();
+        let result = new CreateEmprestimoDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateEmprestimoDto {
+    id: number;
+    dataEmprestimo: moment.Moment;
+    dataDevolucao: moment.Moment | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    livroId: number;
+    userId: number;
+}
+
 export class CreateGeneroDto implements ICreateGeneroDto {
     descricao: string;
 
@@ -4028,7 +4527,7 @@ export interface ICreateGeneroDto {
 export class CreateLivroDto implements ICreateLivroDto {
     id: number;
     titulo: string;
-    isbn: string;
+    isbn: string | undefined;
     quantidade: number;
     gerarQrCode: boolean;
     creationTime: moment.Moment;
@@ -4091,7 +4590,7 @@ export class CreateLivroDto implements ICreateLivroDto {
 export interface ICreateLivroDto {
     id: number;
     titulo: string;
-    isbn: string;
+    isbn: string | undefined;
     quantidade: number;
     gerarQrCode: boolean;
     creationTime: moment.Moment;
@@ -4299,6 +4798,136 @@ export interface ICreateUserDto {
     isActive: boolean;
     roleNames: string[] | undefined;
     password: string;
+}
+
+export class EmprestimoDto implements IEmprestimoDto {
+    id: number;
+    dataEmprestimo: moment.Moment;
+    dataDevolucao: moment.Moment | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    livroId: number;
+    userId: number;
+    tituloLivro: string | undefined;
+    nomeUsuario: string | undefined;
+
+    constructor(data?: IEmprestimoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.dataEmprestimo = _data["dataEmprestimo"] ? moment(_data["dataEmprestimo"].toString()) : <any>undefined;
+            this.dataDevolucao = _data["dataDevolucao"] ? moment(_data["dataDevolucao"].toString()) : <any>undefined;
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.livroId = _data["livroId"];
+            this.userId = _data["userId"];
+            this.tituloLivro = _data["tituloLivro"];
+            this.nomeUsuario = _data["nomeUsuario"];
+        }
+    }
+
+    static fromJS(data: any): EmprestimoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EmprestimoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["dataEmprestimo"] = this.dataEmprestimo ? this.dataEmprestimo.toISOString() : <any>undefined;
+        data["dataDevolucao"] = this.dataDevolucao ? this.dataDevolucao.toISOString() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["livroId"] = this.livroId;
+        data["userId"] = this.userId;
+        data["tituloLivro"] = this.tituloLivro;
+        data["nomeUsuario"] = this.nomeUsuario;
+        return data; 
+    }
+
+    clone(): EmprestimoDto {
+        const json = this.toJSON();
+        let result = new EmprestimoDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEmprestimoDto {
+    id: number;
+    dataEmprestimo: moment.Moment;
+    dataDevolucao: moment.Moment | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    livroId: number;
+    userId: number;
+    tituloLivro: string | undefined;
+    nomeUsuario: string | undefined;
+}
+
+export class EmprestimoDtoPagedResultDto implements IEmprestimoDtoPagedResultDto {
+    items: EmprestimoDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IEmprestimoDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(EmprestimoDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): EmprestimoDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EmprestimoDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data; 
+    }
+
+    clone(): EmprestimoDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new EmprestimoDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEmprestimoDtoPagedResultDto {
+    items: EmprestimoDto[] | undefined;
+    totalCount: number;
 }
 
 export class ExternalAuthenticateModel implements IExternalAuthenticateModel {
@@ -4936,7 +5565,7 @@ export interface IIsTenantAvailableOutput {
 export class Livro implements ILivro {
     id: number;
     titulo: string;
-    isbn: string;
+    isbn: string | undefined;
     quantidade: number;
     qrCode: string | undefined;
     creationTime: moment.Moment;
@@ -5005,7 +5634,7 @@ export class Livro implements ILivro {
 export interface ILivro {
     id: number;
     titulo: string;
-    isbn: string;
+    isbn: string | undefined;
     quantidade: number;
     qrCode: string | undefined;
     creationTime: moment.Moment;
@@ -5019,7 +5648,7 @@ export interface ILivro {
 export class LivroDto implements ILivroDto {
     id: number;
     titulo: string;
-    isbn: string;
+    isbn: string | undefined;
     quantidade: number;
     qrCode: string | undefined;
     creationTime: moment.Moment;
@@ -5088,7 +5717,7 @@ export class LivroDto implements ILivroDto {
 export interface ILivroDto {
     id: number;
     titulo: string;
-    isbn: string;
+    isbn: string | undefined;
     quantidade: number;
     qrCode: string | undefined;
     creationTime: moment.Moment;
@@ -6032,6 +6661,73 @@ export interface IUpdateAutorDto {
     nome: string;
 }
 
+export class UpdateEmprestimoDto implements IUpdateEmprestimoDto {
+    id: number;
+    dataEmprestimo: moment.Moment;
+    dataDevolucao: moment.Moment | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    livroId: number;
+    userId: number;
+
+    constructor(data?: IUpdateEmprestimoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.dataEmprestimo = _data["dataEmprestimo"] ? moment(_data["dataEmprestimo"].toString()) : <any>undefined;
+            this.dataDevolucao = _data["dataDevolucao"] ? moment(_data["dataDevolucao"].toString()) : <any>undefined;
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.livroId = _data["livroId"];
+            this.userId = _data["userId"];
+        }
+    }
+
+    static fromJS(data: any): UpdateEmprestimoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateEmprestimoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["dataEmprestimo"] = this.dataEmprestimo ? this.dataEmprestimo.toISOString() : <any>undefined;
+        data["dataDevolucao"] = this.dataDevolucao ? this.dataDevolucao.toISOString() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["livroId"] = this.livroId;
+        data["userId"] = this.userId;
+        return data; 
+    }
+
+    clone(): UpdateEmprestimoDto {
+        const json = this.toJSON();
+        let result = new UpdateEmprestimoDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUpdateEmprestimoDto {
+    id: number;
+    dataEmprestimo: moment.Moment;
+    dataDevolucao: moment.Moment | undefined;
+    creationTime: moment.Moment;
+    isDeleted: boolean;
+    livroId: number;
+    userId: number;
+}
+
 export class UpdateGeneroDto implements IUpdateGeneroDto {
     id: number;
     descricao: string;
@@ -6082,7 +6778,7 @@ export interface IUpdateGeneroDto {
 export class UpdateLivroDto implements IUpdateLivroDto {
     id: number;
     titulo: string;
-    isbn: string;
+    isbn: string | undefined;
     quantidade: number;
     qrCode: string | undefined;
     creationTime: moment.Moment;
@@ -6145,7 +6841,7 @@ export class UpdateLivroDto implements IUpdateLivroDto {
 export interface IUpdateLivroDto {
     id: number;
     titulo: string;
-    isbn: string;
+    isbn: string | undefined;
     quantidade: number;
     qrCode: string | undefined;
     creationTime: moment.Moment;

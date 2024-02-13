@@ -8,7 +8,7 @@
 }
 
 
-@media only screen and (max-device-width: 425px) {
+@media only screen and (max-device-width: 431px) {
     .btn-mobile {
         margin-top: 1rem !important;
         width: 100% !important;
@@ -20,5 +20,14 @@
 
     .refresh {
         display: none;
+    }
+
+    .icon-button {
+        display: none;
+    }
+
+    .btn-sm {
+        width: 100% !important;
+        margin: 2px 0px 0px !important;
     }
 }

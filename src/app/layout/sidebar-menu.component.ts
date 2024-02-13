@@ -70,6 +70,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 'Pages.Livros'
             ),
             new MenuItem(
+                "Empréstimos",
+                '/app/emprestimos',
+                'fab fa-leanpub',
+                'Pages.Emprestimos'
+            ),
+            new MenuItem(
                 this.l('Users'),
                 '/app/users',
                 'fas fa-users',

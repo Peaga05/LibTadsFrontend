@@ -48,6 +48,8 @@ import { LivrosComponent } from './livros/livros.component';
 import { CreateLivroComponent } from './livros/create-livro/create-livro.component';
 import { EditLivroComponent } from './livros/edit-livro/edit-livro.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { EmprestimosComponent } from './emprestimos/emprestimos.component';
+import { CreateEmprestimoComponent } from './emprestimos/create-emprestimo/create-emprestimo.component';
 
 
 @NgModule({
@@ -88,6 +90,8 @@ import { NgxMaskModule } from 'ngx-mask';
     LivrosComponent,
     CreateLivroComponent,
     EditLivroComponent,
+    EmprestimosComponent,
+    CreateEmprestimoComponent,
   ],
   imports: [
     CommonModule,
@@ -119,7 +123,7 @@ import { NgxMaskModule } from 'ngx-mask';
     ResetPasswordDialogComponent,
     //autores
     CreateAutorComponent,
-    EditAutorComponent
+    EditAutorComponent,
   ],
 })
 export class AppModule {}

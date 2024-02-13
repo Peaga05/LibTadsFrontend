@@ -11,6 +11,8 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { AutoresComponent } from './autores/autores.component';
 import { GenerosComponent } from './generos/generos.component';
 import { LivrosComponent } from './livros/livros.component';
+import { EmprestimosComponent } from './emprestimos/emprestimos.component';
+import { CreateEmprestimoComponent } from './emprestimos/create-emprestimo/create-emprestimo.component';
 
 @NgModule({
     imports: [
@@ -25,6 +27,18 @@ import { LivrosComponent } from './livros/livros.component';
                     { path: 'autores', component: AutoresComponent, data: { permission: 'Pages.Autores' }, canActivate: [AppRouteGuard] },
                     { path: 'generos', component: GenerosComponent, data: { permission: 'Pages.Generos' }, canActivate: [AppRouteGuard] },
                     { path: 'livros', component: LivrosComponent, data: { permission: 'Pages.Livros' }, canActivate: [AppRouteGuard] },
+                    {
+                        path: 'emprestimos',
+                        component: EmprestimosComponent,
+                        data: { permission: 'Pages.Emprestimos' },
+                        canActivate: [AppRouteGuard],
+                    },
+                    {
+                        path: 'emprestimos/create-emprestimo/:id',
+                        component: CreateEmprestimoComponent,
+                        data: { permission: 'Pages.Emprestimos' },
+                        canActivate: [AppRouteGuard]
+                    },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent, canActivate: [AppRouteGuard] },
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] }
