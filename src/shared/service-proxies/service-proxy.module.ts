@@ -16,6 +16,7 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.AutorServiceProxy,
         ApiServiceProxies.GeneroServiceProxy,
         ApiServiceProxies.LivroServiceProxy,
+        ApiServiceProxies.EmprestimoServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })

@@ -1,0 +1,17 @@
+.bg-green {
+    background-color: #334f53 !important;
+    color: #e1e3ac !important;
+}
+
+.bg-green:hover {
+    background-color: #4b6366 !important;
+}
+
+.title{
+    font-size: 20px !important;
+    font-weight: bold !important;
+}
+
+.text-data{
+ font-size: 18px !important;
+}
