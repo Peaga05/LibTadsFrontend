@@ -95,6 +95,7 @@ export class AutoresComponent extends PagedListingComponentBase<AutorDto> {
       );
     }
     createOrEditGeneroDialog.content.onSave.subscribe(() => {
+      abp.notify.success("Operação realizada com sucesso!");
       this.refresh();
     });
   }

@@ -11,12 +11,12 @@
                 <abp-validation-summary [control]="nameModel" [controlEl]="nameEl"></abp-validation-summary>
             </div>
         </div>
-        <div class="form-group row required mt-2">
+        <div class="form-group row mt-2">
             <label class="col-md-2 col-form-label" for="isbn">
                 Isbn
             </label>
             <div class="col-md-10">
-                <input type="text" mask="0000000000000" class="form-control" name="isbn" id="isbn" required minlength="2" maxlength="13"
+                <input type="text" mask="0000000000000" class="form-control" name="isbn" id="isbn" minlength="2" maxlength="13"
                     [(ngModel)]="livro.isbn" #isbnModel="ngModel" #nameEl />
                 <abp-validation-summary [control]="isbnModel" [controlEl]="nameEl"></abp-validation-summary>
             </div>

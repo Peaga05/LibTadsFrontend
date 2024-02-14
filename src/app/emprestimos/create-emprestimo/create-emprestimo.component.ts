@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/app-component-base';
 import { CreateEmprestimoDto, EmprestimoServiceProxy, LivroDto, LivroServiceProxy, UserServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -25,7 +25,8 @@ export class CreateEmprestimoComponent extends AppComponentBase implements OnIni
     private _livroService: LivroServiceProxy,
     private _userService: UserServiceProxy,
     private _emprestimoService: EmprestimoServiceProxy,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private routerNavigate: Router
   ) {
     super(injector)
   }
@@ -46,14 +47,15 @@ export class CreateEmprestimoComponent extends AppComponentBase implements OnIni
     });
   }
 
-  save(){
+  save() {
     abp.ui.setBusy();
     this._emprestimoService.create(this.emprestimoDto).pipe(
-      finalize(() =>{
+      finalize(() => {
         abp.ui.clearBusy();
       })
     ).subscribe(() => {
-
+      abp.notify.success("Empréstimo realizado com sucesso!");
+      this.routerNavigate.navigate(['/app/emprestimos']);
     })
   }
 }
