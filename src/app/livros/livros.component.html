@@ -59,14 +59,14 @@
                       <i class="fas fa-qrcode"></i>
                       QrCode
                     </button>
-                    <ng-container *ngIf="livro.quatidade > 0; else naoEmprestimo">
+                    <ng-container *ngIf="livro.quantidade > 0; else naoEmprestimo">
                       <a class="btn btn-sm bg-warning" routerLink="../emprestimos/create-emprestimo/{{livro.id}}">
                         <i class="fab fa-leanpub icon-button"></i>
                         Empréstimo
                       </a>
                     </ng-container>
                     <ng-template #naoEmprestimo>
-                      Livro indisponível
+                      <span class="btn btn-sm bg-gray">Livro indisponível</span>
                     </ng-template>
 
                   </td>

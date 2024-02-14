@@ -30,7 +30,7 @@ export class CreateLivroComponent extends AppComponentBase implements OnInit {
   }
 
    ngOnInit() {
-    this.livro.quantidade = 0
+    this.livro.quantidade = 1
     abp.ui.setBusy();
      this._autorService.getAllAutor().pipe(
       finalize(() => {

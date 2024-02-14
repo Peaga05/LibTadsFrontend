@@ -100,6 +100,7 @@ export class LivrosComponent extends PagedListingComponentBase<LivroDto>{
       );
     }
     createOrEditLivroDialog.content.onSave.subscribe(() => {
+      abp.notify.success("Operação realizada com sucesso!");
       this.refresh();
     });
   }

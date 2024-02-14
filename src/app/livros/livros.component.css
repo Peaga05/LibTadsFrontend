@@ -7,6 +7,10 @@
     background-color: #4b6366 !important;
 }
 
+.bg-gray{
+    cursor: default !important;
+}
+
 
 @media only screen and (max-device-width: 431px) {
     .btn-mobile {

@@ -49,16 +49,21 @@
                                         </ng-template>
                                     </td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-sm bg-green mx-2"
-                                            (click)="renovar(livro)">
-                                            <i class="fas fa-redo-alt"></i>
-                                            Renovar
-                                        </button>
-                                        <button type="button" class="btn btn-sm bg-warning"
-                                            (click)="devolver(livro)">
-                                            <i class="fas fa-arrow-alt-circle-down"></i>
-                                            Devolver
-                                        </button>
+                                        <ng-container *ngIf="emprestimo.dataDevolucao == null; else devolvido">
+                                            <button *ngIf="emprestimo.userId == userId" type="button" class="btn btn-sm bg-green mx-2"
+                                                (click)="renovar(emprestimo)">
+                                                <i class="fas fa-redo-alt"></i>
+                                                Renovar
+                                            </button>
+                                            <button *ngIf="emprestimo.userId == userId" type="button" class="btn btn-sm bg-warning"
+                                                (click)="devolver(emprestimo)">
+                                                <i class="fas fa-arrow-alt-circle-down"></i>
+                                                Devolver
+                                            </button>
+                                        </ng-container>
+                                        <ng-template #devolvido>
+                                            Livro devolvido
+                                        </ng-template>
                                     </td>
                                 </tr>
                             </tbody>
