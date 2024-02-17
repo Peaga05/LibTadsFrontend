@@ -50,6 +50,7 @@ import { EditLivroComponent } from './livros/edit-livro/edit-livro.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { EmprestimosComponent } from './emprestimos/emprestimos.component';
 import { CreateEmprestimoComponent } from './emprestimos/create-emprestimo/create-emprestimo.component';
+import { MeuPerfilComponent } from './users/meu-perfil/meu-perfil.component';
 
 
 @NgModule({
@@ -92,6 +93,7 @@ import { CreateEmprestimoComponent } from './emprestimos/create-emprestimo/creat
     EditLivroComponent,
     EmprestimosComponent,
     CreateEmprestimoComponent,
+    MeuPerfilComponent,
   ],
   imports: [
     CommonModule,

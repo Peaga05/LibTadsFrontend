@@ -3783,7 +3783,7 @@ export class UserServiceProxy {
     /**
      * @return Success
      */
-    getUserLogado(): Observable<number> {
+    getUserLogado(): Observable<UserDto> {
         let url_ = this.baseUrl + "/api/services/app/User/GetUserLogado";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3802,14 +3802,14 @@ export class UserServiceProxy {
                 try {
                     return this.processGetUserLogado(<any>response_);
                 } catch (e) {
-                    return <Observable<number>><any>_observableThrow(e);
+                    return <Observable<UserDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<number>><any>_observableThrow(response_);
+                return <Observable<UserDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetUserLogado(response: HttpResponseBase): Observable<number> {
+    protected processGetUserLogado(response: HttpResponseBase): Observable<UserDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -3820,7 +3820,7 @@ export class UserServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = UserDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -3828,7 +3828,7 @@ export class UserServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<number>(<any>null);
+        return _observableOf<UserDto>(<any>null);
     }
 
     /**
