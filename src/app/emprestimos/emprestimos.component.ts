@@ -86,8 +86,8 @@ export class EmprestimosComponent extends PagedListingComponentBase<EmprestimoDt
         finalize(() => {
           abp.ui.clearBusy();
         })
-      ).subscribe((x) => {
-        this.userId = x;
+      ).subscribe((user: UserDto) => {
+        this.userId = user.id;
         this.refresh();
       })
     })

@@ -13,6 +13,7 @@ import { GenerosComponent } from './generos/generos.component';
 import { LivrosComponent } from './livros/livros.component';
 import { EmprestimosComponent } from './emprestimos/emprestimos.component';
 import { CreateEmprestimoComponent } from './emprestimos/create-emprestimo/create-emprestimo.component';
+import { MeuPerfilComponent } from './users/meu-perfil/meu-perfil.component';
 
 @NgModule({
     imports: [
@@ -41,7 +42,9 @@ import { CreateEmprestimoComponent } from './emprestimos/create-emprestimo/creat
                     },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent, canActivate: [AppRouteGuard] },
-                    { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] }
+                    { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] },
+                    { path: 'meu-perfil', component: MeuPerfilComponent, canActivate: [AppRouteGuard] },
+
                 ]
             }
         ])

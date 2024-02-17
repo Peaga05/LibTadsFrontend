@@ -1,0 +1,8 @@
+.bg-green {
+    background-color: #334f53 !important;
+    color: #e1e3ac !important;
+}
+
+.bg-green:hover {
+    background-color: #4b6366 !important;
+}
