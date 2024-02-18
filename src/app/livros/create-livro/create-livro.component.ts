@@ -15,6 +15,7 @@ export class CreateLivroComponent extends AppComponentBase implements OnInit {
 
   saving = false;
   livro = new CreateLivroDto();
+  isCheck: boolean = false;
   erro = false;
   autores: AutorDto[] = [];
   generos: GeneroDto[] = [];
@@ -62,10 +63,18 @@ export class CreateLivroComponent extends AppComponentBase implements OnInit {
     })
   }
 
+  onCheckboxChange(): void {
+    if (this.isCheck) {
+      this.livro.gerarQrCode = true;
+    } else {
+      this.livro.gerarQrCode = false;
+    }
+  }
+
   save() {
     this.saving = true;
     const livro = new CreateLivroDto();
-
+    console.log(this.livro.gerarQrCode)
     livro.init(this.livro);
 
     this._livroService.create(livro).subscribe(() => {
