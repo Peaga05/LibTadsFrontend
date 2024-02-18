@@ -1,12 +1,14 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
-import { LivroDto, LivroDtoPagedResultDto, LivroServiceProxy, RoleDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { Livro, LivroDto, LivroDtoPagedResultDto, LivroServiceProxy, RoleDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { CreateLivroComponent } from './create-livro/create-livro.component';
 import { EditLivroComponent } from './edit-livro/edit-livro.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Router } from '@angular/router';
+import { jsPDF } from 'jspdf';
+import QRCode from 'qrcode';
 
 class PagedLivrosRequestDto extends PagedRequestDto {
   keyword: string;
@@ -121,7 +123,28 @@ export class LivrosComponent extends PagedListingComponentBase<LivroDto>{
     })
   }
 
-  gerarQrCode(livro) {
+  async gerarQrCode(livro: LivroDto) {
+    if (livro.qrCode != null) {
+      await this.generateQRCodePDF(livro.qrCode);
+    } else {
+      abp.ui.setBusy();
+      this._livroService.cadastrarQrCode(livro.id).pipe(
+        finalize(() => {
+          abp.ui.clearBusy();
+        })
+      ).subscribe(async (x) => {
+        await this.generateQRCodePDF(x);
+      })
+    }
+  }
 
+  async generateQRCodePDF(qrCode: string): Promise<void> {
+    const qrCodeImageUrl = 'data:image/png;base64,' + qrCode;
+    const a = document.createElement('a');
+    a.href = qrCodeImageUrl;
+    a.download = 'qrcode.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 }
