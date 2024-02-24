@@ -6,3 +6,9 @@
 .bg-green:hover {
     background-color: #4b6366 !important;
 }
+
+@media only screen and (max-device-width: 425px) {
+    .refresh {
+        display: none;
+    }
+}
