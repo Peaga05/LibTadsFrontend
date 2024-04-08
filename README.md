@@ -1,4 +1,5 @@
-# LibTadsTemplate
+# LibTads Frontend
+
 
 Aplicação frontend do projeto LibTads
 
