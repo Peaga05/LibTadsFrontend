@@ -11,7 +11,7 @@ import { finalize } from 'rxjs/operators';
   animations: [appModuleAnimation()]
 })
 export class MeuPerfilComponent extends AppComponentBase implements OnInit {
-  user: UserDto;
+  user: UserDto = null;
 
   constructor(
     injector: Injector,

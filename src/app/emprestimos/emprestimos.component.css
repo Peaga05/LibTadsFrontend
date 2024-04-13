@@ -7,7 +7,7 @@
     background-color: #4b6366 !important;
 }
 
-@media only screen and (max-device-width: 425px) {
+@media only screen and (max-device-width: 431px) {
     .refresh {
         display: none;
     }

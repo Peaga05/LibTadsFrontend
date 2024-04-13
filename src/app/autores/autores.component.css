@@ -8,7 +8,7 @@
 }
 
 
-@media only screen and (max-device-width: 425px) {
+@media only screen and (max-device-width: 431px) {
     .btn-mobile {
         margin-top: 1rem !important;
         width: 100% !important;
