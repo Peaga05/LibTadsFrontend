@@ -24,15 +24,6 @@
       <abp-validation-summary [control]="passwordModel" [controlEl]="passwordEl"></abp-validation-summary>
     </div>
     <div class="form-group row">
-      <div class="col-md-8">
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="rememberMe" name="rememberMe"
-            [(ngModel)]="authService.rememberMe" />
-          <label for="rememberMe" class="custom-control-label color-green">
-            {{ "RememberMe" | localize }}
-          </label>
-        </div>
-      </div>
       <div class="col-12 mt-2">
         <button type="submit" class="btn btn-primary btn-login btn-block"
           [disabled]="!loginForm.form.valid || submitting">
