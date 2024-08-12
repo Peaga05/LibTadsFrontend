@@ -48,7 +48,7 @@ export class GenerosComponent extends PagedListingComponentBase<GeneroDto> {
 
   protected delete(genero: GeneroDto): void {
     abp.message.confirm(
-      "Deseja mesmo apagar o autor: " + genero.descricao,
+      "Deseja mesmo apagar o gênero: " + genero.descricao,
       undefined,
       (result: boolean) => {
         if (result) {

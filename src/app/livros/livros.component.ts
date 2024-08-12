@@ -56,7 +56,7 @@ export class LivrosComponent extends PagedListingComponentBase<LivroDto>{
 
   protected delete(livro: LivroDto): void {
     abp.message.confirm(
-      "Deseja mesmo apagar o autor: " + livro.titulo,
+      "Deseja mesmo apagar o livro: " + livro.titulo,
       undefined,
       (result: boolean) => {
         if (result) {
